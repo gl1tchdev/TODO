@@ -34,8 +34,10 @@
     {% endblock %}
 </head>
 <body>
+<canvas id="canvas-basic"></canvas>
 {% block content %}
 {% endblock content %}
+<script src="{% static 'js/granim.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/script.js' %}">
 </script>
 </body>

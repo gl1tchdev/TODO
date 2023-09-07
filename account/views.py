@@ -27,8 +27,7 @@ def user_login(request):
 
 def user_logout(request):
     logout(request)
-    form = LoginForm()
-    return render(request, 'account/login.html', {'form': form})
+    return HttpResponseRedirect(reverse('account:login'))
 
 
 def user_register(request):
