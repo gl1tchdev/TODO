@@ -22,7 +22,7 @@
                 <p class="fw-bold text-center fs-1 pt-0 mb-0">TODO list</p>
             </div>
           <div class="card-body p-3 h-100">
-              <div class="d-flex justify-content-start" style="height: auto;">
+              <div class="d-flex justify-content-start mb-3" style="height: auto;">
                   <form class="w-100" method="POST" action="{% url 'todolist:create' %}">
                       <div class="input-group mb-1">
                           <div class="input-group p-0">
@@ -50,6 +50,34 @@
                   {% csrf_token %}
                   </form>
               </div>
+              <form method="POST" action="{% url 'todolist:mark' %}">
+              <div class="list-group list-group-light border ps-2">
+                  {% for task in tasks %}
+                  <li class="list-group-item">
+                    <input class="form-check-input" type="checkbox" name="{{ task.id }}" value="true" id="check{{ task.id }}" />
+                    <label class="form-check-label {% if task.done %} text-decoration-line-through text-muted {% endif %}" for="check{{ task.id }}">{{ task.title }}
+                    {% if not task.done %}
+                      <span class="badge rounded-pill badge-warning">Waiting</span>
+                    {% else %}
+                        <span class="badge rounded-pill badge-success">Done</span>
+                    {% endif %}
+                      {% if task.date_time %}
+                      <span class="badge rounded-pill badge-info"><i class="fas fa-clock"></i>
+                          {{ task.date_time }}
+                      </span>
+                        {% endif %}
+                  </label>
+                  </li>
+                  {% endfor %}
+              </div>
+              <div class="d-flex justify-content-center pt-2" style="height: 3rem;">
+              <button class="btn btn-primary"  style="background-color: #25d366;" type="submit">
+                <i class="fas fa-check"></i>
+                  TOGGLE STATUS
+              </button>
+              </div>
+              {% csrf_token %}
+              </form>
         </div>
       </div>
   </div>
