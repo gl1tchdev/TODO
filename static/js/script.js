@@ -17,3 +17,22 @@ var granimInstance = new Granim({
        }
    }
 });
+let pickr_instance = $("#datetimepicker");
+const optional_config = {
+    enableTime: true,
+    dateFormat: "Y-m-d H:i",
+    onChange: function (selectedDates, dateStr, instance) {
+        instance.close();
+        let input = document.createElement('input');
+        input.type = 'hidden';
+        input.value = dateStr;
+        input.name = 'date_time'
+        $('#pickr_area').append(input);
+    },
+};
+pickr_instance.flatpickr(optional_config);
+
+$(function () {
+    $("[rel='tooltip']").tooltip();
+});
+

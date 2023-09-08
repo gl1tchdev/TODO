@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% block title %} Main {% endblock %}
+{% block head %}
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+{% endblock %}
 {% block content %}
 <section class="vh-100">
   <div class="container py-5 h-100 d-flex justify-content-center align-items-center">
@@ -16,26 +21,38 @@
                   </div>
                 <p class="fw-bold text-center fs-1 pt-0 mb-0">TODO list</p>
             </div>
-          <div class="card-body p-3 text-center">
-              <div class="d-flex justify-content-center row pr-5 pl-5">
-                  <form method="POST" action="{% url 'todolist:search' %}">
-                      <div class="input-group">
-                          {% for field in form %}
-                          <div class="form-outline">
-                            {{ field }}
-                              <label class="form-label" for="{{ field.auto_id }}">{{ field.label }}</label>
+          <div class="card-body p-3 h-100">
+              <div class="d-flex justify-content-start" style="height: auto;">
+                  <form class="w-100" method="POST" action="{% url 'todolist:create' %}">
+                      <div class="input-group mb-1">
+                          <div class="input-group p-0">
+                              <a data-container="body" class="h-100" rel="tooltip" data-mdb-placement="left" data-mdb-toggle="tooltip" title="Set reminder?">
+                                  <button data-mdb-toggle="collapse" data-mdb-target="#collapseExample" type="button" class="btn btn-primary h-100">
+                                     <i class="fas fa-calendar"></i>
+                                  </button>
+                              </a>
+                            <div class="form-outline">
+                              <input type="text" id="id_todo" class="form-control" name="title" data-mdb-showcounter="true" maxlength="25" />
+                              <label class="form-label" for="id_todo">To do</label>
+                              <div class="form-helper"></div>
+                            </div>
                           </div>
                           <button type="submit" class="btn btn-primary">
-                              <i class="fas fa-search"></i>
+                              <i class="fas fa-plus"></i>
                           </button>
-                          {% endfor %}
+                      </div>
+                      <div class="collapse mt-4" id="collapseExample">
+                        <div class="form-outline mb-2" id="pickr_area">
+                            <input type="text" class="form-control" id="datetimepicker"/>
+                            <div class="form-helper">Set date & time</div>
+                        </div>
                       </div>
                   {% csrf_token %}
                   </form>
               </div>
-          </div>
         </div>
       </div>
+  </div>
   </div>
 </section>
 {% endblock %}
