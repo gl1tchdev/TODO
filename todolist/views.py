@@ -1,4 +1,4 @@
-from pprint import pprint
+from django.core.paginator import Paginator, EmptyPage
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -7,19 +7,27 @@ from django.shortcuts import render
 
 
 @login_required
-def lobby(request):
-    tasks = Task.objects.filter(user=request.user).all()
-    return render(request, 'todolist/lobby.html', {'tasks': tasks})
+def lobby(request, page=1):
+    tasks = Task.objects.filter(user=request.user).order_by('id').reverse().all()
+    p = Paginator(tasks, 7)
+    try:
+        tasks = p.page(page)
+    except EmptyPage:
+        tasks = p.page(1)
+    tasks = tasks
+    return render(request, 'todolist/lobby.html',
+                  {'tasks': tasks.object_list, 'current_page': page, 'has_next_page': tasks.has_next(),
+                   'has_prev_page': tasks.has_previous(), 'tasks_p': tasks})
 
 
 def create(request):
-    redirect = HttpResponseRedirect(reverse('todolist:lobby'))
+    response = HttpResponseRedirect(reverse('todolist:lobby'))
     if not request.method == 'POST':
-        return redirect
+        return response
     task_data = request.POST
     task = Task(user=request.user, title=task_data['title'], date_time=task_data.get('date_time'), done=False)
     task.save()
-    return redirect
+    return response
 
 
 def mark(request):
@@ -28,6 +36,7 @@ def mark(request):
         return redirect
     marked = dict(request.POST)
     marked.pop('csrfmiddlewaretoken')
+    current = marked.pop('current_page')[0]
     if not marked:
         return redirect
     marked_ids = [int(mark_id) for mark_id in marked.keys()]
@@ -38,4 +47,11 @@ def mark(request):
         else:
             marked_task.done = True
         marked_task.save()
+    redirect['location'] += str(current)
+    return redirect
+
+
+def delete(request, task_id):
+    redirect = HttpResponseRedirect(reverse('todolist:lobby'))
+    Task.objects.filter(pk=task_id).delete()
     return redirect

@@ -51,9 +51,9 @@
                   </form>
               </div>
               <form method="POST" action="{% url 'todolist:mark' %}">
-              <div class="list-group list-group-light border ps-2">
+              <div class="list-group list-group-light border ps-2 list-group-small">
                   {% for task in tasks %}
-                  <li class="list-group-item">
+                  <li class="list-group-item d-flex justify-content-xxl-between align-items-center">
                     <input class="form-check-input" type="checkbox" name="{{ task.id }}" value="true" id="check{{ task.id }}" />
                     <label class="form-check-label {% if task.done %} text-decoration-line-through text-muted {% endif %}" for="check{{ task.id }}">{{ task.title }}
                     {% if not task.done %}
@@ -61,26 +61,49 @@
                     {% else %}
                         <span class="badge rounded-pill badge-success">Done</span>
                     {% endif %}
-                      {% if task.date_time %}
+                      {% if task.date_time and not task.done %}
                       <span class="badge rounded-pill badge-info"><i class="fas fa-clock"></i>
                           {{ task.date_time }}
                       </span>
                         {% endif %}
                   </label>
+                      <a class="btn btn-rounded btn-sm btn-danger" href="{% url 'todolist:delete' task_id=task.id %}" role="button"><i class="fas fa-xmark"></i></a>
                   </li>
                   {% endfor %}
               </div>
               <div class="d-flex justify-content-center pt-2" style="height: 3rem;">
-              <button class="btn btn-primary"  style="background-color: #25d366;" type="submit">
-                <i class="fas fa-check"></i>
-                  TOGGLE STATUS
-              </button>
+                  {% if has_prev_page %}
+                  <div class="px-2 py-0">
+                        <a href="{% url 'todolist:lobby_page' page=tasks_p.previous_page_number %}">
+                          <button class="btn btn-link" type="button">
+                            <i class="fas fa-angle-left"></i>
+                          </button>
+                        </a>
+                  </div>
+                  {% endif %}
+                  <div class="px-2 py-0">
+                      <button class="btn btn-primary btn-success"  style="background-color: #25d366;" type="submit">
+                        <i class="fas fa-check"></i>
+                          TOGGLE STATUS
+                      </button>
+                  </div>
+              {% if has_next_page %}
+                  <div class="px-2 py-0">
+                      <a href="{% url 'todolist:lobby_page' page=tasks_p.next_page_number %}">
+                          <button class="btn btn-link" type="button">
+                            <i class="fas fas fa-angle-right"></i>
+                          </button>
+                      </a>
+                  </div>
+              {% endif %}
               </div>
               {% csrf_token %}
+              <input name="current_page" value="{{ current_page }}" type="hidden"/>
               </form>
         </div>
       </div>
   </div>
   </div>
+{{ paginator.start_index }}
 </section>
 {% endblock %}
