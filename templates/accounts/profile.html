@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %} {{ request.user.username }} profile{% endblock %}
+{% block content %}
+<section class="vh-100">
+  <div class="container py-5 h-100 d-flex justify-content-center align-items-center">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card shadow-3-strong w-100 h-100" style="border-radius: 1rem;">
+            <div class="card-header">
+                <div class="d-flex justify-content-start">
+                    <a href="{% url 'todolist:lobby' %}">
+                        <button type="button" class="btn btn-link border">
+                            <i class="fas fa-angle-left"></i>
+                            Back
+                        </button>
+                    </a>
+                </div>
+                <p class="fw-bold text-center fs-1 pt-0 mb-0">Account info</p>
+            </div>
+            <div class="card-body">
+                <form method="POST" action=".">
+
+                </form>
+            </div>
+        </div>
+      </div>
+  </div>
+</section>
+{% endblock %}

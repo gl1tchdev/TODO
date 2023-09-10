@@ -13,8 +13,8 @@
             <div class="card-header">
                 <div class="d-flex justify-content-end">
                   <span class="fw-light fs-4 mb-0">
-                       {{ request.user.username }}
-                      <a href="{% url "account:logout" %}">
+                       <a href="{% url 'accounts:profile' %}">{{ request.user.username }}</a>
+                      <a href="{% url "accounts:logout" %}">
                       <i class="fas fa-right-from-bracket fa-1x" style="cursor: pointer"></i>
                       </a>
                   </span>
