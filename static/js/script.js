@@ -22,7 +22,6 @@ const optional_config = {
     enableTime: true,
     dateFormat: "Y-m-d H:i",
     onChange: function (selectedDates, dateStr, instance) {
-        instance.close();
         let input = document.createElement('input');
         input.type = 'hidden';
         input.value = dateStr;

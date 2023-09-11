@@ -14,12 +14,27 @@
                         </button>
                     </a>
                 </div>
-                <p class="fw-bold text-center fs-1 pt-0 mb-0">Account info</p>
+                <p class="fw-bold text-center fs-1 pt-0 mb-0">Profile</p>
+                <p class="fw-light text-center fs-4 pt-2 mb-0">Here you can update your account info</p>
+                {% if error %}
+                    <p class="fw-light text-center fs-4 pt-2" style="color: red;">{{ error }}</p>
+                {% endif %}
+                {% if success %}
+                    <p class="fw-light text-center fs-4 pt-2" style="color: green;">{{ success }}</p>
+                {% endif %}
             </div>
             <div class="card-body">
-                <form method="POST" action=".">
-
+                    <form method="post" action=".">
+                        {% for field in form %}
+                            <div class="form-outline mb-4">
+                            {{ field }}
+                                <label class="form-label" for="{{ field.auto_id }}">{{ field.label }}</label>
+                            </div>
+                        {% endfor %}
+                        {% csrf_token %}
+                    <button class="btn btn-primary btn-lg btn-block" type="submit">Update</button>
                 </form>
+            </div>
             </div>
         </div>
       </div>
