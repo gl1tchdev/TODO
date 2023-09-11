@@ -45,24 +45,31 @@ def user_register(request):
 
 
 def profile(request):
+    output = {}
     if request.method == 'GET':
         form = UpdateUserForm(initial={'username': request.user.username, 'email': request.user.email})
+        output.update({'form': form})
     else:
         form = UpdateUserForm(request.POST)
+        output.update({'form': form})
         if not form.is_valid():
-            return render(request, 'accounts/profile.html', {'form': form, 'error': 'Form data is invalid'})
+            output.update({'error': 'Form data is invalid'})
+            return render(request, 'accounts/profile.html', output)
         cleaned_data = form.cleaned_data
-        user = authenticate(request, username=request.user.username, password=cleaned_data.get('password'))
-        if not user:
-            return render(request, 'accounts/profile.html', {'form': form, 'error': 'Old password is wrong'})
-        if cleaned_data.get('username'):
+        if not request.user.check_password(cleaned_data.get('password')):
+            output.update({'error': 'Old password is wrong'})
+            return render(request, 'accounts/profile.html', output)
+        if cleaned_data.get('username') != request.user.username:
             request.user.username = cleaned_data.get('username')
-            request.user.save()
-        if cleaned_data.get('email'):
+        if cleaned_data.get('email') != request.user.email:
             request.user.email = cleaned_data.get('email')
-            request.user.save()
+        request.user.save()
         if cleaned_data.get('new_password'):
             request.user.password = make_password(cleaned_data.get('new_password'))
             request.user.save()
             return HttpResponseRedirect(reverse('accounts:login'))
-    return render(request, 'accounts/profile.html', {'form': form, 'success': 'Congrats, info changed'})
+    return render(request, 'accounts/profile.html', output)
+
+
+def tg_connect(request):
+    return render(request, 'accounts/tg_connect.html')

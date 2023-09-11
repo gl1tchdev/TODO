@@ -81,12 +81,14 @@
                         </a>
                   </div>
                   {% endif %}
+              {% if tasks %}
                   <div class="px-2 py-0">
                       <button class="btn btn-primary btn-success"  style="background-color: #25d366;" type="submit">
                         <i class="fas fa-check"></i>
                           TOGGLE STATUS
                       </button>
                   </div>
+              {% endif %}
               {% if has_next_page %}
                   <div class="px-2 py-0">
                       <a href="{% url 'todolist:lobby_page' page=tasks_p.next_page_number %}">
