@@ -139,3 +139,10 @@ STATIC_ROOT = ''
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Telegram
+TELEGRAM_TOKEN = environ['TG_TOKEN']
+TELEGRAM_BOT_LINK = 'https://t.me/todolistnotificationsbot'
+
+
+HOST_NAME = 'http://127.0.0.1:8000'

@@ -3,6 +3,9 @@ from django.contrib.auth.hashers import make_password
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render
+from TODO.settings import TELEGRAM_BOT_LINK
+from tg_bot.utils import generate_random_string
+from .models import Telegram
 from .forms import LoginForm, UserRegistrationForm, UpdateUserForm
 
 
@@ -72,4 +75,11 @@ def profile(request):
 
 
 def tg_connect(request):
-    return render(request, 'accounts/tg_connect.html')
+    user_id_str = generate_random_string()
+    tg = Telegram.objects.get(user=request.user)
+    if not tg:
+        tg = Telegram(user=request.user)
+    tg.tg_random_salt = user_id_str
+    tg.save()
+    link = TELEGRAM_BOT_LINK + '?start=' + user_id_str
+    return render(request, 'accounts/tg_connect.html', {'link' : link})
