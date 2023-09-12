@@ -2,7 +2,7 @@ from django.core.paginator import Paginator, EmptyPage
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .models import Task
+from .models import Task, Notification
 from django.shortcuts import render
 
 
@@ -25,7 +25,11 @@ def create(request):
     if not request.method == 'POST':
         return response
     task_data = request.POST
-    task = Task(user=request.user, title=task_data['title'], date_time=task_data.get('date_time'), done=False)
+    task = Task(user=request.user, title=task_data['title'], done=False)
+    if task_data.get('date_time'):
+        notification = Notification(date_time=task_data.get('date_time'))
+        notification.save()
+        task.notification = notification
     task.save()
     return response
 
@@ -46,6 +50,8 @@ def mark(request):
             marked_task.done = False
         else:
             marked_task.done = True
+            marked_task.notification.sent = True
+            marked_task.notification.save()
         marked_task.save()
     redirect['location'] += str(current)
     return redirect

@@ -21,6 +21,10 @@ let pickr_instance = $("#datetimepicker");
 const optional_config = {
     enableTime: true,
     dateFormat: "Y-m-d H:i",
+    time_24hr: true,
+    minDate: 'today',
+    altInput: true,
+    altFormat: "H:i, F j, Y",
     onChange: function (selectedDates, dateStr, instance) {
         let input = document.createElement('input');
         input.type = 'hidden';

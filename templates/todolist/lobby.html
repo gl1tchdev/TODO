@@ -32,7 +32,7 @@
                                   </button>
                               </a>
                             <div class="form-outline">
-                              <input type="text" id="id_todo" class="form-control" name="title" data-mdb-showcounter="true" maxlength="25" />
+                              <input type="text" id="id_todo" class="form-control" name="title" data-mdb-showcounter="true" maxlength="25" required/>
                               <label class="form-label" for="id_todo">To do</label>
                               <div class="form-helper"></div>
                             </div>
@@ -65,9 +65,9 @@
                     {% else %}
                         <span class="badge rounded-pill badge-success">Done</span>
                     {% endif %}
-                      {% if task.date_time and not task.done %}
+                      {% if task.notification and not task.notification.sent%}
                       <span class="badge rounded-pill badge-info"><i class="fas fa-clock"></i>
-                          {{ task.date_time }}
+                          {{ task.notification.date_time }}
                       </span>
                         {% endif %}
                   </label>
