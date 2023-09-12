@@ -26,7 +26,7 @@
             <div class="card-body">
                     <form method="post" action=".">
                         {% for field in form %}
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-3">
                             {{ field }}
                                 <label class="form-label" for="{{ field.auto_id }}">{{ field.label }}</label>
                             </div>
@@ -36,7 +36,7 @@
                 </form>
                 <div class="pt-3">
                     <a target="_blank" href="{% url 'accounts:tg' %}" class="btn btn-lg btn-link w-100" type="button"><i class="fab fa-telegram"></i>
-                        Connect notifications</a>
+                        Manage notifications {% if request.user.telegram.confirmed %}(connected){% endif %}</a>
                 <div>
             </div>
             </div>

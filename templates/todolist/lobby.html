@@ -26,7 +26,7 @@
                   <form class="w-100" method="POST" action="{% url 'todolist:create' %}">
                       <div class="input-group mb-1">
                           <div class="input-group p-0">
-                              <a data-container="body" class="h-100" rel="tooltip" data-mdb-placement="left" data-mdb-toggle="tooltip" title="Set reminder?">
+                              <a data-container="body" class="h-100" rel="tooltip" data-mdb-placement="left" data-mdb-toggle="tooltip" title="Set tg reminder?">
                                   <button data-mdb-toggle="collapse" data-mdb-target="#collapseExample" type="button" class="btn btn-primary h-100">
                                      <i class="fas fa-calendar"></i>
                                   </button>
@@ -42,10 +42,14 @@
                           </button>
                       </div>
                       <div class="collapse mt-4" id="collapseExample">
+                          {% if request.user.telegram.confirmed %}
                         <div class="form-outline mb-2" id="pickr_area">
                             <input type="text" class="form-control" id="datetimepicker"/>
                             <div class="form-helper">Set date & time</div>
                         </div>
+                          {% else %}
+                              <p class="fs-4 fw-light text-center">Connect <a href="{% url 'accounts:tg' %}">tg account</a> to use reminders</p>
+                          {% endif %}
                       </div>
                   {% csrf_token %}
                   </form>

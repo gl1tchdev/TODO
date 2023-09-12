@@ -75,11 +75,24 @@ def profile(request):
 
 
 def tg_connect(request):
-    user_id_str = generate_random_string()
-    tg = Telegram.objects.get(user=request.user)
-    if not tg:
-        tg = Telegram(user=request.user)
-    tg.tg_random_salt = user_id_str
-    tg.save()
-    link = TELEGRAM_BOT_LINK + '?start=' + user_id_str
-    return render(request, 'accounts/tg_connect.html', {'link' : link})
+    if request.method == 'GET':
+        user_id_str = generate_random_string()
+        tg = Telegram.objects.filter(user=request.user).first()
+        if not tg:
+            tg = Telegram(user=request.user)
+        if not tg.tg_random_salt:
+            tg.tg_random_salt = user_id_str = generate_random_string()
+        else:
+            user_id_str = tg.tg_random_salt
+        tg.save()
+        link = TELEGRAM_BOT_LINK + '?start=' + user_id_str
+        return render(request, 'accounts/tg_connect.html', {'link': link})
+    else:
+        state = request.POST.get('state')
+        tg = Telegram.objects.get(user=request.user)
+        if state == 'confirmed':
+            tg.confirmed = True
+            tg.save()
+        else:
+            tg.delete()
+        return HttpResponseRedirect(reverse('accounts:tg'))
