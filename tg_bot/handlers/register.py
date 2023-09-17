@@ -8,7 +8,7 @@ from threading import Thread
 
 def write_id(message: telebot.types.Message, user_id_str):
     tg = Telegram.objects.get(tg_random_salt=user_id_str)
-    tg.tg_chat_id = message.from_user.id
+    tg.tg_chat_id = message.chat.id
     tg.tg_username = message.from_user.username
     tg.save()
 

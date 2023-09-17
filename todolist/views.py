@@ -4,6 +4,9 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .models import Task, Notification
 from django.shortcuts import render
+from .tasks import notify_user
+from TODO.utils import get_datetime_obj
+
 
 
 @login_required
@@ -14,7 +17,6 @@ def lobby(request, page=1):
         tasks = p.page(page)
     except EmptyPage:
         tasks = p.page(1)
-    tasks = tasks
     return render(request, 'todolist/lobby.html',
                   {'tasks': tasks.object_list, 'current_page': page, 'has_next_page': tasks.has_next(),
                    'has_prev_page': tasks.has_previous(), 'tasks_p': tasks})
@@ -30,6 +32,9 @@ def create(request):
         notification = Notification(date_time=task_data.get('date_time'))
         notification.save()
         task.notification = notification
+        task.save()
+        datetime = get_datetime_obj(task.notification.date_time)
+        notify_user.apply_async(args=(request.user.id, task.id), eta=datetime, soft_time_limit=10, time_limit=10)
     task.save()
     return response
 
@@ -50,8 +55,6 @@ def mark(request):
             marked_task.done = False
         else:
             marked_task.done = True
-            marked_task.notification.sent = True
-            marked_task.notification.save()
         marked_task.save()
     redirect['location'] += str(current)
     return redirect

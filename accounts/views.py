@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render
 from TODO.settings import TELEGRAM_BOT_LINK
-from tg_bot.utils import generate_random_string
+from TODO.utils import generate_random_string
 from .models import Telegram
 from .forms import LoginForm, UserRegistrationForm, UpdateUserForm
 

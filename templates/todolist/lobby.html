@@ -65,11 +65,14 @@
                     {% else %}
                         <span class="badge rounded-pill badge-success">Done</span>
                     {% endif %}
-                      {% if task.notification and not task.notification.sent%}
+                      {% if task.notification and not task.notification.sent %}
                       <span class="badge rounded-pill badge-info"><i class="fas fa-clock"></i>
                           {{ task.notification.date_time }}
                       </span>
                         {% endif %}
+                    {% if task.notification.sent %}
+                        <span class="badge rounded-pill badge-warning">Notification sent</span>
+                    {% endif %}
                   </label>
                       <a class="btn btn-rounded btn-sm btn-danger" href="{% url 'todolist:delete' task_id=task.id %}" role="button"><i class="fas fa-xmark"></i></a>
                   </li>
@@ -110,6 +113,5 @@
       </div>
   </div>
   </div>
-{{ paginator.start_index }}
 </section>
 {% endblock %}

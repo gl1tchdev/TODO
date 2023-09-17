@@ -13,6 +13,9 @@ python-telegram-bot = "^20.5"
 pytelegrambotapi = "^4.13.0"
 idna = "^3.4"
 aiohttp = "^3.8.5"
+redis = "^5.0.0"
+celery = "^5.3.4"
+pytz = "^2023.3.post1"
 
 
 [build-system]
