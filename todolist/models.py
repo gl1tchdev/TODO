@@ -8,7 +8,7 @@ class Notification(models.Model):
 
 
 class Task(models.Model):
-    title = models.CharField(max_length=25)
+    title = models.CharField(max_length=20)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     done = models.BooleanField(default=False)
     notification = models.OneToOneField(Notification, on_delete=models.CASCADE, default=None, null=True)
