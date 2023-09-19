@@ -2,7 +2,7 @@
 Simple task-manager with delayed telegram-notifications
 # Install
 ## Step 1
-First of all you need to install: Postgresql 15, redis 3.0.504, poetry. 
+Preparing server and environment
 ```shell
 git clone https://github.com/gl1tchdev/TODO
 ```
@@ -10,7 +10,17 @@ git clone https://github.com/gl1tchdev/TODO
 cd TODO
 ```
 ```shell
-apt-get install redis postgresql
+apt-get install redis postgresql libpq-dev
+```
+```shell
+sudo -i -u postgres
+psql
+```
+```sql
+CREATE DATABASE todo;
+```
+```shell
+exit
 ```
 ## Step 2
 Create telegram bot and open file ```TODO/settings.py```:<br>
@@ -26,19 +36,27 @@ HOST_NAME = 'full address of application'
 ```
 REDIS_URL = 'url of redis-server'
 ```
-Create db "todo" and check if postgresql connection data is correct in next lines
+Check if postgresql connection data is correct in next lines
 ```python
 DATABASES = ...
 ```
-Also set up env vars ```PG_LOGIN``` and ```PG_PASS```
+Add your host to
+```python
+ALLOWED_HOSTS = ...
+```
+Set up env vars ```PG_LOGIN``` and ```PG_PASS```.<br>
+Replace ```STATICFILE_DIRS``` to ```STATIC_ROOT``` if system is linux
 ## Step 3
 ```shell
 poetry install
 ```
 ```shell
 poetry shell
+python manage.py migrate
+python manage.py collectstatic --noinput
 ```
-After all you need to
+# Run
+## Development
 1. run polling for tg registration app: 
 ```shell
 python run_polling.py
@@ -54,3 +72,4 @@ python -m celery -A TODO worker -P eventlet
 ```shell
 python manage.py runserver 8000
 ```
+## Production
