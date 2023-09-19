@@ -9,6 +9,9 @@ git clone https://github.com/gl1tchdev/TODO
 ```shell
 cd TODO
 ```
+```shell
+apt-get install redis postgresql
+```
 ## Step 2
 Create telegram bot and open file ```TODO/settings.py```:<br>
 set up environment variable ```TG_TOKEN``` and save it
