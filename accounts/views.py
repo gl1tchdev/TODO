@@ -3,6 +3,7 @@ from django.contrib.auth.hashers import make_password
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from TODO.settings import TELEGRAM_BOT_LINK
 from TODO.utils import generate_random_string
 from .models import Telegram
@@ -47,6 +48,7 @@ def user_register(request):
     return render(request, 'accounts/register.html', {'form': user_form})
 
 
+@login_required
 def profile(request):
     output = {}
     if request.method == 'GET':
@@ -73,7 +75,7 @@ def profile(request):
             return HttpResponseRedirect(reverse('accounts:login'))
     return render(request, 'accounts/profile.html', output)
 
-
+@login_required
 def tg_connect(request):
     if request.method == 'GET':
         user_id_str = generate_random_string()
