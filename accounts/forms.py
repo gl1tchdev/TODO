@@ -10,8 +10,6 @@ class LoginForm(forms.Form):
 class UserRegistrationForm(forms.ModelForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control form-control-lg'}))
     email = forms.CharField(widget=forms.EmailInput(attrs={'class': 'form-control form-control-lg'}))
-    new_password = forms.CharField(label='New password', widget=forms.PasswordInput(attrs={'class': 'form-control '
-                                                                                                    'form-control-lg'}))
     password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'form-control '
                                                                                             'form-control-lg'}))
     password2 = forms.CharField(label='Confirm password', widget=forms.PasswordInput(attrs={'class': 'form-control '
@@ -30,6 +28,8 @@ class UserRegistrationForm(forms.ModelForm):
 
 
 class UpdateUserForm(UserRegistrationForm):
+    new_password = forms.CharField(label='New password', widget=forms.PasswordInput(attrs={'class': 'form-control '
+                                                                                                    'form-control-lg'}))
     def __init__(self, *args, **kwargs):
         super(UpdateUserForm, self).__init__(*args, **kwargs)
         self.fields['username'].required = False
