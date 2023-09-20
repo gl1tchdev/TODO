@@ -120,3 +120,6 @@ ExecStart=/path/to/poetry run python run_polling.py
 ...
 ```
 Start this daemon and enable. Done!
+# Demo
+Test it: http://todo.glitchdev.space
+#
