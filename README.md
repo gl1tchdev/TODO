@@ -1,6 +1,9 @@
 # Description
 TODO is a minimalistic task manager with built-in telegram notifications. Developed using Django and celery. Try it: http://todo.glitchdev.space
-![tasks](https://i.imgur.com/843pTcV.jpg)
+<p align="center">
+   <img src="https://i.imgur.com/843pTcV.jpg">
+</p>
+
 # Install
 ## Step 1
 Preparing server and environment
