@@ -23,7 +23,7 @@ let pickr_instance = $("#datetimepicker");
 const optional_config = {
     enableTime: true,
     enableSeconds: true,
-    dateFormat: "Y-m-d H:i",
+    dateFormat: "Y-m-d H:i:s",
     time_24hr: true,
     minDate: now,
     maxDate: next_month,
@@ -31,7 +31,7 @@ const optional_config = {
     minuteIncrement: 2,
     mode: 'single',
     altInput: true,
-    altFormat: "H:i, F j, Y",
+    altFormat: "H:i:s, F j, Y",
     onChange: function (selectedDates, dateStr, instance) {
         let input = document.createElement('input');
         input.type = 'hidden';

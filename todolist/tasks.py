@@ -15,7 +15,7 @@ def notify_user(user_id: int, task_id: int) -> bool:
     task_time = hunderline(str(task.notification.date_time))
     task_text = f'Reminder! You need to do {task_title} at {task_time}.\n\nYou received this message ' \
                 f'because you set reminder at {HOST_NAME}. You can unsubscribe {hlink("here", HOST_NAME + "/accounts/tg")}'
-    send_message(chat_id, task_text)
+    send_message(chat_id, task_text, task_id)
     task.notification.sent = True
     task.notification.save()
     task.save()

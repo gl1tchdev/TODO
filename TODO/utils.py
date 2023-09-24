@@ -12,7 +12,7 @@ def generate_random_string(length: int = 6) -> str:
 
 def get_datetime_obj(date_time: str) -> datetime:
     local = pytz.timezone("Europe/Moscow")
-    format_str = '%Y-%m-%d %H:%M'
+    format_str = '%Y-%m-%d %H:%M:%S'
     naive = datetime.strptime(date_time, format_str)
     local_dt = local.localize(naive, is_dst=None)
     utc_dt = local_dt.astimezone(pytz.utc)
