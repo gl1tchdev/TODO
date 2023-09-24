@@ -75,10 +75,10 @@ def profile(request):
             return HttpResponseRedirect(reverse('accounts:login'))
     return render(request, 'accounts/profile.html', output)
 
+
 @login_required
 def tg_connect(request):
     if request.method == 'GET':
-        user_id_str = generate_random_string()
         tg = Telegram.objects.filter(user=request.user).first()
         if not tg:
             tg = Telegram(user=request.user)

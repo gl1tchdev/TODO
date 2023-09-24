@@ -22,9 +22,10 @@ next_month = new Date(now.getFullYear(), now.getMonth()+1, now.getDate());
 let pickr_instance = $("#datetimepicker");
 const optional_config = {
     enableTime: true,
+    enableSeconds: true,
     dateFormat: "Y-m-d H:i",
     time_24hr: true,
-    minDate: 'today',
+    minDate: now,
     maxDate: next_month,
     defaultDate: now,
     minuteIncrement: 2,

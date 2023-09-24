@@ -8,7 +8,6 @@ from .tasks import notify_user
 from TODO.utils import get_datetime_obj
 
 
-
 @login_required
 def lobby(request, page=1):
     tasks = Task.objects.filter(user=request.user).order_by('id').reverse().all()
@@ -22,6 +21,7 @@ def lobby(request, page=1):
                    'has_prev_page': tasks.has_previous(), 'tasks_p': tasks})
 
 
+@login_required
 def create(request):
     response = HttpResponseRedirect(reverse('todolist:lobby'))
     if not request.method == 'POST':
@@ -39,6 +39,7 @@ def create(request):
     return response
 
 
+@login_required
 def mark(request):
     redirect = HttpResponseRedirect(reverse('todolist:lobby'))
     if not request.method == 'POST':
@@ -60,6 +61,7 @@ def mark(request):
     return redirect
 
 
+@login_required
 def delete(request, task_id):
     redirect = HttpResponseRedirect(reverse('todolist:lobby'))
     Task.objects.filter(pk=task_id).delete()
