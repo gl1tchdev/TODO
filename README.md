@@ -117,6 +117,7 @@ ExecStart=/path/to/poetry run celery -A TODO worker -P eventlet -l info
 ...
 ```
 Start this daemon and enable.
+
 4. Create todo_bot daemon:
 ```shell
 ...
